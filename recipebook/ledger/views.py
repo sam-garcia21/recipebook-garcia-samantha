@@ -1,143 +1,26 @@
 from django.shortcuts import render
+from django.views.generic import TemplateView
 from django.http import HttpResponse
+from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView 
+
+from .models import Recipe
 
 # Create your views here.
 
 def recipe_list(request):
-    ctx = recipe_list_context
+    recipes = Recipe.objects.all()
+    ctx = {"recipes_list": recipes}
     return render(request, 'recipe_list.html', ctx)
 
-def recipe1(request):
-    ctx = recipe1_context
-    return render(request, 'recipe.html', ctx)
+def recipe_detail(request, id):
+    ctx = { "recipe": Recipe.object.get(pk=pk) }
+    return render(request, 'recipe_detail.html', ctx)
 
-def recipe2(request):
-    ctx = recipe2_context
-    return render(request, 'recipe.html', ctx)
+class RecipeListView(ListView):
+    model = Recipe
+    template_name = "recipe_list.html"
 
-recipe_list_context = {
-    "recipes": [
-        {
-            "name": "Recipe 1",
-            "ingredients": [
-                {
-                    "name": "tomato",
-                    "quantity": "3pcs"
-                },
-                {
-                    "name": "onion",
-                    "quantity": "1pc"
-                },
-                {
-                    "name": "pork",
-                    "quantity": "1kg"
-                },
-                {
-                    "name": "water",
-                    "quantity": "1L"
-                },
-                {
-                    "name": "sinigang mix",
-                    "quantity": "1 packet"
-                }
-            ],
-            "link": "/recipe/1"
-        },
-        {
-            "name": "Recipe 2",
-            "ingredients": [
-                {
-                    "name": "garlic",
-                    "quantity": "1 head"
-                },
-                {
-                    "name": "onion",
-                    "quantity": "1pc"
-                },
-                {
-                    "name": "vinegar",
-                    "quantity": "1/2cup"
-                },
-                {
-                    "name": "water",
-                    "quanity": "1 cup"
-                },
-                {
-                    "name": "salt",
-                    "quantity": "1 tablespoon"
-                },
-                {
-                    "name": "whole black peppers",
-                    "quantity": "1 tablespoon"
-                },
-                {
-                    "name": "pork",
-                    "quantity": "1 kilo"
-                }
-            ],
-            "link": "/recipe/2"
-        }
-    ]
-}
-
-recipe1_context = {
-    "name": "Recipe 1",
-    "ingredients": [
-        {
-            "name": "tomato",
-            "quantity": "3pcs"
-        },
-        {
-            "name": "onion",
-            "quantity": "1pc"
-        },
-        {
-            "name": "pork",
-            "quantity": "1kg"
-        },
-        {
-            "name": "water",
-            "quantity": "1L"
-        },
-        {
-            "name": "sinigang mix",
-            "quantity": "1 packet"
-        }
-    ],
-    "link": "/recipe/1"
-}
-
-recipe2_context = {
-    "name": "Recipe 2",
-    "ingredients": [
-        {
-            "name": "garlic",
-            "quantity": "1 head"
-        },
-        {
-            "name": "onion",
-            "quantity": "1pc"
-        },
-        {
-            "name": "vinegar",
-            "quantity": "1/2cup"
-        },
-        {
-            "name": "water",
-            "quantity": "1 cup"
-        },
-        {
-            "name": "salt",
-            "quantity": "1 tablespoon"
-        },
-        {
-            "name": "whole black peppers",
-            "quantity": "1 tablespoon"
-        },
-        {
-            "name": "pork",
-            "quantity": "1 kilo"
-        }
-    ],
-    "link": "/recipe/2"
-}
+class RecipeDetailView(DetailView):
+    model = Recipe
+    template_name = "recipe_detail.html"
