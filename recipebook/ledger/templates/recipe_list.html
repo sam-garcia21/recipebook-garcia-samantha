@@ -2,15 +2,10 @@
 
 {% block content %}
     <ul>
-    {% for recipe in recipes%}
+    {% for recipe in recipe_list%}
         <li> 
-            <a href="{{ recipe.link}}">{{ recipe.name }} </a>
+            <a href="/recipe/{{ recipe.pk }}">{{ recipe.name }} </a>
         </li>
-        <ul>
-            {% for ingredient in recipe.ingredients %} 
-            <li> {{ ingredient.name }}: {{ingredient.quantity}} </li>
-            {% endfor %}
-        </ul>
         <br>
     {% endfor %}
     </ul>
